@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "45403318314",
+    "firebase_url": "https://loja3-d68ef.firebaseio.com",
+    "project_id": "loja3-d68ef",
+    "storage_bucket": "loja3-d68ef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:45403318314:android:47d4f0d57920b192257b53",
+        "android_client_info": {
+          "package_name": "nepomuceno.com.loja2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "45403318314-fkffot0a3er2lj3vs02gop3dfkvqadgh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDH800cu6E3navLfXqC91M7KW_nWSEVZ88"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "45403318314-fkffot0a3er2lj3vs02gop3dfkvqadgh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
