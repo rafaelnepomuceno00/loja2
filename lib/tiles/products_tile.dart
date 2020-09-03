@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:loja2/data/product_data.dart';
 import 'package:loja2/screens/product_screen.dart';
 
 class ProductTile extends StatelessWidget {
@@ -21,7 +20,7 @@ class ProductTile extends StatelessWidget {
             ? Column(
                 children: <Widget>[
                   AspectRatio(
-                    aspectRatio: 0.9,
+                    aspectRatio: 0.79,
                     child: Image.network(
                       product.images[0],
                       fit: BoxFit.cover,

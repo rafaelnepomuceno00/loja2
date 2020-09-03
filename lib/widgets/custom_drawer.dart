@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:loja2/models/user_model.dart';
+import 'package:loja2/screens/login_screen.dart';
 import 'package:loja2/tiles/drawer_tiles.dart';
+import 'package:scoped_model/scoped_model.dart';
 
-class CustomDrawer extends StatelessWidget {
+class CustomDrawer extends StatefulWidget {
   final PageController pageController;
 
   CustomDrawer(this.pageController);
 
+  @override
+  _CustomDrawerState createState() => _CustomDrawerState();
+}
+
+class _CustomDrawerState extends State<CustomDrawer> {
   Widget _buildDrawerBack() => Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color.fromARGB(255, 170 , 170, 170), Colors.white],
+            colors: [Color.fromARGB(255, 170, 170, 170), Colors.white],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -41,40 +49,53 @@ class CustomDrawer extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      left: 0.0,
-                      bottom: 0.0,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Olá,',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18.0,
-                            ),
-                          ),
-                          GestureDetector(
-                            child: Text(
-                              'Entre ou Cadastre-se >',
-                              style: TextStyle(
-                                color: Colors.greenAccent,
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.w700,
+                        left: 0.0,
+                        bottom: 0.0,
+                        child: ScopedModelDescendant<UserModel>(
+                            builder: (context, child, model) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Olá, ${!model.isLoggedIn() ? '' : model.userData['name']}',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18.0,
+                                ),
                               ),
-                            ),
-                            onTap: () {},
-                          )
-                        ],
-                      ),
-                    ),
+                              GestureDetector(
+                                child: Text(
+                                  !model.isLoggedIn()
+                                      ? 'Entre ou Cadastre-se >'
+                                      : 'Sair',
+                                  style: TextStyle(
+                                    color: Colors.greenAccent,
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                                onTap: () {
+                                  if (!model.isLoggedIn()) {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                          builder: (context) => LoginScreen()),
+                                    );
+                                  } else
+                                    model.signOut();
+                                },
+                              )
+                            ],
+                          );
+                        })),
                   ],
                 ),
               ),
               Divider(),
-              DrawerTile(Icons.home, 'Início', pageController, 0),
-              DrawerTile(Icons.list, 'Produtos', pageController, 1),
-              DrawerTile(Icons.location_on, 'Lojas', pageController, 2),
-              DrawerTile(Icons.playlist_add_check, 'Meus Pedidos', pageController, 3),
+              DrawerTile(Icons.home, 'Início', widget.pageController, 0),
+              DrawerTile(Icons.list, 'Produtos', widget.pageController, 1),
+              DrawerTile(Icons.location_on, 'Lojas', widget.pageController, 2),
+              DrawerTile(Icons.playlist_add_check, 'Meus Pedidos',
+                  widget.pageController, 3),
             ],
           ),
         ],

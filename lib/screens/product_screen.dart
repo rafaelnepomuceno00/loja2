@@ -48,13 +48,15 @@ class _ProductScreenState extends State<ProductScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(
-                  product.title,
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
+                Center(
+                  child: Text(
+                    product.title,
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    maxLines: 3,
                   ),
-                  maxLines: 3,
                 ),
                 Text(
                   ' R\$ ${product.price.toStringAsFixed(2)}',
@@ -66,18 +68,24 @@ class _ProductScreenState extends State<ProductScreen> {
                 SizedBox(
                   height: 16.0,
                 ),
-                Text(
-                  'Tamanho',
-                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
+                Center(
+                  child: Text(
+                    'Tamanho',
+                    style:
+                        TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
+                  ),
+                ),
+                SizedBox(
+                  height: 8.0,
                 ),
                 SizedBox(
                   height: 34.0,
                   child: GridView(
-                    padding: EdgeInsets.symmetric(vertical: 4.0),
+                    padding: EdgeInsets.symmetric(vertical: 1),
                     scrollDirection: Axis.horizontal,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 1,
-                        mainAxisSpacing: 8.0,
+                        mainAxisSpacing: 24.0,
                         childAspectRatio: 0.5),
                     children: product.sizes.map((s) {
                       return GestureDetector(
@@ -121,8 +129,8 @@ class _ProductScreenState extends State<ProductScreen> {
                   height: 16.0,
                 ),
                 Text(
-                  'Descrição',
-                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
+                  'Descrição:',
+                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
                 ),
                 Text(
                   product.description,
