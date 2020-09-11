@@ -5,16 +5,15 @@ import 'package:loja2/screens/signup_screen.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class LoginScreen extends StatefulWidget {
-
   @override
   _LoginScreenState createState() => _LoginScreenState();
-
 }
 
 class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
 
   final _passController = TextEditingController();
+
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   final _formKey = GlobalKey<FormState>();
@@ -22,6 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
         appBar: AppBar(
           title: Text('Entrar'),
           centerTitle: true,
@@ -72,7 +72,25 @@ class _LoginScreenState extends State<LoginScreen> {
                   Align(
                     alignment: Alignment.centerRight,
                     child: FlatButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        if (_emailController.text.isEmpty)
+                          _scaffoldKey.currentState.showSnackBar(
+                            SnackBar(
+                                content: Text('Ensira o email para recuperação!'),
+                                duration: Duration(seconds: 2),
+                                backgroundColor: Colors.red),
+                          );
+                        else {
+                          model.recoverPass(_emailController.text);
+                          _scaffoldKey.currentState.showSnackBar(
+                            SnackBar(
+                                content: Text('Confira sua caixa de e-mail!'),
+                                duration: Duration(seconds: 2),
+                                backgroundColor:
+                                    Theme.of(context).primaryColor),
+                          );
+                        }
+                      },
                       child: Text(
                         'Esqueci minha senha',
                         textAlign: TextAlign.right,
@@ -93,13 +111,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       textColor: Colors.white,
                       color: Theme.of(context).primaryColor,
                       onPressed: () {
-                        if (_formKey.currentState.validate()) {}
-                        model.signIn(
-                          email: _emailController.text,
-                          pass: _passController.text,
-                          onFail: _onFail,
-                          onSuccess: _onSuccess,
-                        );
+                        if (_formKey.currentState.validate()) {
+
+                          model.signIn(
+                            email: _emailController.text,
+                            pass: _passController.text,
+
+                            onSuccess: _onSuccess,
+                            onFail: _onFail,
+                          );
+                        }
+
                       },
                     ),
                   ),
@@ -121,8 +143,8 @@ class _LoginScreenState extends State<LoginScreen> {
           duration: Duration(seconds: 2),
           backgroundColor: Colors.red),
     );
-    Future.delayed(Duration (seconds:  2)).then((_){
-      Navigator.of(context).pop();
+    Future.delayed(Duration(seconds: 2)).then((_) async {
+      await Navigator.of(context).pop();
     });
   }
 }

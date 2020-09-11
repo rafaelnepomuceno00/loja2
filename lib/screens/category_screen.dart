@@ -55,19 +55,22 @@ class CaregoryScreen extends StatelessWidget {
                           ),
                           itemCount: snapshot.data.documents.length,
                           itemBuilder: (context, index) {
-                            return ProductTile(
-                                "grid",
-                                ProductData.fromDoCument(
-                                    snapshot.data.documents[index]));
+                            ProductData data = ProductData.fromDoCument(
+                                snapshot.data.documents[index]);
+                            data.category = this.snapshot.documentID;
+                            return ProductTile("grid", data);
                           }),
                       ListView.builder(
                         padding: EdgeInsets.all(4.0),
                         itemCount: snapshot.data.documents.length,
                         itemBuilder: (context, index) {
+
+                          ProductData data = ProductData.fromDoCument(
+                              snapshot.data.documents[index]);
+                          data.category = this.snapshot.documentID;
                           return ProductTile(
                               "list",
-                              ProductData.fromDoCument(
-                                  snapshot.data.documents[index]));
+                              data);
                         },
                       )
                     ]);

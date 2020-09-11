@@ -2,7 +2,12 @@ import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:loja2/data/cart_product.dart';
 import 'package:loja2/data/product_data.dart';
+import 'package:loja2/models/cart_model.dart';
+import 'package:loja2/models/user_model.dart';
+import 'package:loja2/screens/cart_screen.dart';
+import 'package:loja2/screens/login_screen.dart';
 
 class ProductScreen extends StatefulWidget {
   final ProductData product;
@@ -117,9 +122,30 @@ class _ProductScreenState extends State<ProductScreen> {
                 SizedBox(
                   height: 44.0,
                   child: RaisedButton(
-                    onPressed: size != null ? () {} : null,
+                    onPressed: size != null
+                        ? () {
+                            if (UserModel.of(context).isLoggedIn()) {
+                              CartProduct cartProduct = CartProduct();
+                              cartProduct.size = size;
+                              cartProduct.quantity = 1;
+                              cartProduct.pid = product.id;
+                              cartProduct.category = product.category;
+                              CartModel.of(context).addCartItem(cartProduct);
+
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => CartScreen()));
+                            } else {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) => LoginScreen()),
+                              );
+                            }
+                          }
+                        : null,
                     child: Text(
-                      'Adicionar ao carrinho',
+                      UserModel.of(context).isLoggedIn()
+                          ? 'Adicionar ao carrinho'
+                          : 'Faça Login para Comprar',
                       style: TextStyle(fontSize: 18.0),
                     ),
                     color: primaryColor,

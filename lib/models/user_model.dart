@@ -8,10 +8,11 @@ class UserModel extends Model {
 
   FirebaseUser firebaseUser;
 
-  Map<String, dynamic> userData = Map();
+  Map<String, dynamic> userData = Map();//vai abrigar os dados do usuário
 
   bool isLoading = false;
 
+  static UserModel of(BuildContext context) => ScopedModel.of<UserModel>(context);
 
   @override
   void addListener(VoidCallback listener) {
@@ -75,7 +76,9 @@ class UserModel extends Model {
     notifyListeners();
   }
 
-  void recoverPass() {}
+  void recoverPass(String email) {
+    _auth.sendPasswordResetEmail(email: email);
+  }
 
   // ignore: missing_return
   bool isLoggedIn() {
@@ -96,6 +99,7 @@ class UserModel extends Model {
     if(firebaseUser != null){
       if(userData['name'] == null){
         DocumentSnapshot docUser = await Firestore.instance.collection('users').document(firebaseUser.uid).get();
+        userData = docUser.data;
       }
     }
     notifyListeners();
